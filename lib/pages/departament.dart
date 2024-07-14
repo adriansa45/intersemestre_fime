@@ -3,15 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intersemestral_fime/components/button_with_image.dart';
-import 'package:intersemestral_fime/pages/departament.dart';
+import 'package:intersemestral_fime/pages/academy.dart';
 import 'package:intersemestral_fime/utils/layout_selection.dart';
 
-class StudyPlanPage extends StatelessWidget {
-  StudyPlanPage({super.key});
+class DepartamentPage extends StatelessWidget {
+  final String plan;
+  DepartamentPage({super.key, required this.plan});
 
   final List<ButtonProps> studyPlans = [
-    ButtonProps("https://picsum.photos/250?image=9", "Plan 401"),
-    ButtonProps("https://picsum.photos/250?image=9", "Plan 440 ")
+    ButtonProps("https://picsum.photos/250?image=9", "Administración"),
+    ButtonProps("https://picsum.photos/250?image=9", "Sistemas"),
+    ButtonProps("https://picsum.photos/250?image=9", "Manufactura")
   ];
 
   @override
@@ -25,8 +27,8 @@ class StudyPlanPage extends StatelessWidget {
                 fit: FlexFit.tight,
                 child: Column(children: [
                   SizedBox(
-                      width: 200,
-                      child: Text("Selecciona tu plan de estudios",
+                      width: 250,
+                      child: Text("Selecciona un departamento académico",
                           textAlign: TextAlign.center,
                           style: GoogleFonts.montserrat(
                               fontSize: 30,
@@ -48,15 +50,13 @@ class StudyPlanPage extends StatelessWidget {
                   padding: const EdgeInsets.only(bottom: 20),
                   child: ButtonWithImage(
                     image: item.image,
-                    text: item.text,
+                    text: plan + item.text,
                     fontSize: 22,
-                    imageHeight: 210,
+                    imageHeight: 150,
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                DepartamentPage(plan: item.text)),
+                        MaterialPageRoute(builder: (context) => AcademyPage()),
                       );
                       print('Button ${item.text} pressed');
                     },

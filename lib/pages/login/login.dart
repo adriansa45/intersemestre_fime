@@ -107,9 +107,9 @@ class _LoginPageState extends State<LoginPage> {
                         print('Switch Value: $_switchValue');
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const StudyPlanPage()),
+                          MaterialPageRoute(
+                              builder: (context) => StudyPlanPage()),
                         );
-
                       },
                     )
                   ],
