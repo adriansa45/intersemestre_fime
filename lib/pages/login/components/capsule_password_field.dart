@@ -35,7 +35,7 @@ class _CapsulePasswordFieldState extends State<CapsulePasswordField> {
         ],
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 15),
+        padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 15),
         child: TextField(
           controller: widget.controller,
           obscureText: _obscureText,

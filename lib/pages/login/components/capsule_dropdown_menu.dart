@@ -29,7 +29,7 @@ class _CapsuleDropdownMenuState extends State<CapsuleDropdownMenu> {
             )
           ]),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 15),
+        padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 15),
         child: DropdownButton<String>(
           dropdownColor: Colors.white.withOpacity(.5),
           value: dropdownValue,

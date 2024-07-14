@@ -27,7 +27,7 @@ class _CapsuleTextFieldState extends State<CapsuleTextField> {
         ],
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 15),
+        padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 15),
         child: TextField(
           controller: widget.controller,
           style: GoogleFonts.montserrat(

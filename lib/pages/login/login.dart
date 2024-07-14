@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intersemestral_fime/pages/study_plan.dart';
 
 import 'components/capsule_button.dart';
 import 'components/capsule_dropdown_menu.dart';
@@ -104,6 +105,11 @@ class _LoginPageState extends State<LoginPage> {
                         print('Text Value: ${_textController.text}');
                         print('Password Value: ${_passwordController.text}');
                         print('Switch Value: $_switchValue');
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const StudyPlanPage()),
+                        );
+
                       },
                     )
                   ],
