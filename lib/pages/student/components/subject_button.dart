@@ -23,7 +23,7 @@ class _SubjectButtonState extends State<SubjectButton> {
 
   void _togglePressed() {
     setState(() {
-      _isPressed = !_isPressed;
+      //_isPressed = !_isPressed;
     });
     if (widget.onPressed != null) {
       widget.onPressed!();

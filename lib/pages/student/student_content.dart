@@ -1,47 +1,78 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intersemestral_fime/components/button_primary.dart';
 import 'package:intersemestral_fime/components/button_with_image.dart';
-import 'package:intersemestral_fime/pages/student/components/subject_button.dart';
-import 'package:intersemestral_fime/utils/layout_selection.dart';
+import 'package:intersemestral_fime/components/topic_card.dart';
+import 'package:collection/collection.dart';
+import 'package:intersemestral_fime/pages/student/student_topic.dart';
+import 'package:intersemestral_fime/utils/layout_content.dart';
 
-class StudentHomePage extends StatefulWidget {
-  StudentHomePage({super.key});
+class StudentContentPage extends StatefulWidget {
+  final Map<String, dynamic> subject;
+  StudentContentPage({super.key, required this.subject});
 
   @override
-  _StudentHomePageState createState() => _StudentHomePageState();
+  _StudentContentPageState createState() => _StudentContentPageState();
 }
 
-class _StudentHomePageState extends State<StudentHomePage> {
-  final TextEditingController _searchController = TextEditingController();
+class _StudentContentPageState extends State<StudentContentPage> {
+  int currentTab = 0;
+  final Map<String, dynamic> subjectContent = {
+    "content": [
+      {
+        "name": "Medio Curso",
+        "subjects": ["Cambio climatico", "Cambio climatico", "Cambio climatico"]
+      },
+      {
+        "name": "Ordinario",
+        "subjects": ["Cambio climatico", "Cambio climatico", "Cambio climatico"]
+      }
+    ],
+    "resources": [
+      {"type": "file", "title": "Archivo 1", "url": ""},
+      {"type": "file", "title": "Archivo 2", "url": ""},
+      {"type": "file", "title": "Archivo 3", "url": ""}
+    ]
+  };
   final List<ButtonProps> subjects = [
-    ButtonProps("https://picsum.photos/250?image=9",
-        "Base de datos dasdaasd asdasdas asdasd asdasd asdasd asdas"),
+    ButtonProps(
+        "https://picsum.photos/250?image=9", "Base de datos y lenguajes"),
     ButtonProps("https://docs.flutter.dev/assets/images/dash/dash-fainting.gif",
         "Estructura de datos"),
     ButtonProps("https://picsum.photos/250?image=5", "Manufactura")
   ];
 
-  List<ButtonProps> _filteredSubjects = [];
-
   @override
   void initState() {
+    currentTab = 0;
     super.initState();
-    _filteredSubjects = subjects;
-    _searchController.addListener(_filterStudyPlans);
   }
 
-  void _filterStudyPlans() {
-    final query = _searchController.text.toLowerCase();
+  void selectTab(int tab) {
     setState(() {
-      _filteredSubjects = subjects.where((plan) {
-        return plan.text.toLowerCase().contains(query);
-      }).toList();
+      currentTab = tab;
     });
+  }
+
+  Widget getCurrentTab() {
+    switch (currentTab) {
+      case 0:
+        return SubjectTab(content: subjectContent["content"]);
+      case 1:
+        return ResourcesTab(resources: subjectContent["resources"]);
+      default:
+        return SubjectTab(content: subjectContent["content"]);
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return SelectionLayout(
+    return ContentLayout(
       child: Column(
         children: [
           Row(
@@ -56,35 +87,98 @@ class _StudentHomePageState extends State<StudentHomePage> {
                           style: GoogleFonts.montserrat(
                               fontSize: 40,
                               fontWeight: FontWeight.w900,
+                              color: const Color.fromRGBO(0, 89, 4, 1)))),
+                  const SizedBox(height: 20),
+                  SizedBox(
+                      width: 320,
+                      child: Text(widget.subject["name"],
+                          textAlign: TextAlign.center,
+                          maxLines: 3,
+                          style: GoogleFonts.montserrat(
+                              fontSize: 26,
+                              fontWeight: FontWeight.w900,
                               color: const Color.fromRGBO(0, 89, 4, 1))))
                 ]),
               ),
             ],
           ),
           const SizedBox(height: 10),
-          Expanded(
-            child: ListView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              scrollDirection: Axis.vertical,
-              itemCount: _filteredSubjects.length,
-              itemBuilder: (context, index) {
-                final item = _filteredSubjects[index];
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 20),
-                  child: SubjectButton(
-                    image: item.image,
-                    text: item.text,
-                    fontSize: 22,
-                    onPressed: () {
-                      print('Button ${item.text} pressed');
-                    },
-                  ),
-                );
-              },
-            ),
-          )
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ButtonPrimary(
+                text: "Temas",
+                active: currentTab == 0,
+                onPressed: () => {selectTab(0)},
+              ),
+              const SizedBox(width: 20),
+              ButtonPrimary(
+                text: "Recursos",
+                active: currentTab == 1,
+                onPressed: () => {selectTab(1)},
+              )
+            ],
+          ),
+          const SizedBox(height: 10),
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: getCurrentTab())
         ],
       ),
+    );
+  }
+}
+
+class SubjectTab extends StatelessWidget {
+  final List<dynamic> content;
+  SubjectTab({super.key, required this.content});
+  int topicsIndex = 1;
+
+  @override
+  Widget build(BuildContext context) {
+    List<TopicProps> getTopics(List<dynamic> subjects) {
+      return subjects
+          .mapIndexed((i, e) => TopicProps("Tema ${topicsIndex++}", e, 0, () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => StudentTopicPage(
+                          topicProps: {"id": 1, "description": e})),
+                );
+              }))
+          .toList();
+    }
+
+    return SingleChildScrollView(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
+        children: List.generate(
+            content.length,
+            (i) => Padding(
+                  padding: const EdgeInsets.only(bottom: 20),
+                  child: TopicsCard(
+                      title: content[i]["name"],
+                      topics: getTopics(content[i]["subjects"])),
+                )),
+      ),
+    );
+  }
+}
+
+class ResourcesTab extends StatelessWidget {
+  final List<dynamic> resources;
+  ResourcesTab({super.key, required this.resources});
+
+  @override
+  Widget build(BuildContext context) {
+    final List<TopicProps> topics = resources
+        .mapIndexed((i, e) =>
+            TopicProps("Archivo ${i + 1}", e["title"], 0, () => {print(e)}))
+        .toList();
+
+    return SingleChildScrollView(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: TopicsCard(title: "Recursos", topics: topics),
     );
   }
 }

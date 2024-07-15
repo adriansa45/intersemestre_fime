@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ButtonProps {
   final String image;
@@ -15,13 +16,12 @@ class ButtonWithImage extends StatefulWidget {
   final VoidCallback? onPressed;
 
   const ButtonWithImage(
-      {Key? key,
+      {super.key,
       required this.image,
       required this.text,
       this.imageHeight,
       this.fontSize,
-      this.onPressed})
-      : super(key: key);
+      this.onPressed});
 
   @override
   _ButtonWithImageState createState() => _ButtonWithImageState();
@@ -44,21 +44,19 @@ class _ButtonWithImageState extends State<ButtonWithImage> {
     return GestureDetector(
       onTap: _togglePressed,
       child: AnimatedContainer(
-        duration: Duration(milliseconds: 200),
+        duration: const Duration(milliseconds: 200),
         curve: Curves.easeInOut,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(24),
-          color: _isPressed ? Colors.grey[300] : Colors.white,
-          boxShadow: _isPressed
-              ? []
-              : [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 5,
-                    blurRadius: 7,
-                    offset: Offset(0, 3), // changes position of shadow
-                  ),
-                ],
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 5,
+              blurRadius: 7,
+              offset: const Offset(0, 3), // changes position of shadow
+            ),
+          ],
         ),
         child: Column(
           children: [
@@ -66,9 +64,9 @@ class _ButtonWithImageState extends State<ButtonWithImage> {
               height: widget.imageHeight,
               width: double.infinity,
               child: ClipRRect(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(25),
-                    topRight: Radius.circular(25)),
+                borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(24),
+                    topRight: Radius.circular(24)),
                 child: Image.network(
                   widget.image,
                   fit: BoxFit.fitWidth,
@@ -81,8 +79,8 @@ class _ButtonWithImageState extends State<ButtonWithImage> {
                 child: Text(
                   widget.text,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Color.fromRGBO(46, 46, 46, 1),
+                  style: GoogleFonts.montserrat(
+                    color: const Color.fromRGBO(46, 46, 46, 1),
                     fontSize: widget.fontSize,
                     fontWeight: FontWeight.w700,
                   ),

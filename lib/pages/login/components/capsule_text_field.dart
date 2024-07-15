@@ -41,7 +41,7 @@ class _CapsuleTextFieldState extends State<CapsuleTextField> {
               fontWeight: FontWeight.w500,
             ),
             border: InputBorder.none,
-            icon: Icon(
+            icon: const Icon(
               Icons.person,
               size: 35,
               color: Colors.white,

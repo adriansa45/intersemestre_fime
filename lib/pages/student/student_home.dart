@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intersemestral_fime/components/button_with_image.dart';
 import 'package:intersemestral_fime/pages/student/components/subject_button.dart';
+import 'package:intersemestral_fime/pages/student/student_content.dart';
 import 'package:intersemestral_fime/utils/layout_selection.dart';
 
 class StudentHomePage extends StatefulWidget {
@@ -14,11 +15,14 @@ class StudentHomePage extends StatefulWidget {
 class _StudentHomePageState extends State<StudentHomePage> {
   final TextEditingController _searchController = TextEditingController();
   final List<ButtonProps> subjects = [
-    ButtonProps("https://picsum.photos/250?image=9",
-        "Base de datos dasdaasd asdasdas asdasd asdasd asdasd asdas"),
+    ButtonProps(
+        "https://picsum.photos/250?image=9", "Base de datos y lenguajes"),
     ButtonProps("https://docs.flutter.dev/assets/images/dash/dash-fainting.gif",
         "Estructura de datos"),
-    ButtonProps("https://picsum.photos/250?image=5", "Manufactura")
+    ButtonProps("https://picsum.photos/250?image=5", "Manufactura"),
+    ButtonProps("https://picsum.photos/250?image=5", "Manufactura"),
+    ButtonProps("https://picsum.photos/250?image=5", "Manufactura"),
+    ButtonProps("https://picsum.photos/250?image=5", "Manufactura"),
   ];
 
   List<ButtonProps> _filteredSubjects = [];
@@ -77,6 +81,12 @@ class _StudentHomePageState extends State<StudentHomePage> {
                     fontSize: 22,
                     onPressed: () {
                       print('Button ${item.text} pressed');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => StudentContentPage(
+                                subject: {"id": 1, "name": item.text})),
+                      );
                     },
                   ),
                 );
