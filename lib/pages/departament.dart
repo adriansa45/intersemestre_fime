@@ -1,20 +1,42 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intersemestral_fime/components/button_with_image.dart';
+import 'package:intersemestral_fime/components/empty_message.dart';
 import 'package:intersemestral_fime/pages/academy.dart';
+import 'package:intersemestral_fime/props/subject_props.dart';
 import 'package:intersemestral_fime/utils/layout_selection.dart';
 
-class DepartamentPage extends StatelessWidget {
-  final String plan;
-  DepartamentPage({super.key, required this.plan});
+class DepartamentPage extends StatefulWidget {
+  final int plan;
+  const DepartamentPage({super.key, required this.plan});
 
-  final List<ButtonProps> studyPlans = [
-    ButtonProps("https://picsum.photos/250?image=9", "Administración"),
-    ButtonProps("https://picsum.photos/250?image=9", "Sistemas"),
-    ButtonProps("https://picsum.photos/250?image=9", "Manufactura")
+  @override
+  _DepartamentPageState createState() => _DepartamentPageState();
+}
+
+class _DepartamentPageState extends State<DepartamentPage> {
+  final _departaments401 = [
+    SubjectProps(
+        1,
+        "https://www.uhipocrates.edu.mx/wp-content/uploads/2022/12/empresarios-manos-sobre-mesa-blanca-con-documentos-y-borradores.jpg",
+        "Administración"),
+    SubjectProps(
+        2,
+        "https://www.getxplor.com/wp-content/uploads/2024/01/Ejemplos-de-sistemas-de-informacion.jpg",
+        "Sistemas"),
+    SubjectProps(
+        3,
+        "https://cdn.forbes.com.mx/2015/01/manufacturas-eu-e1629911498545.jpg",
+        "Manufactura")
   ];
+
+  List<SubjectProps> departaments = [];
+
+  @override
+  void initState() {
+    departaments = widget.plan == 401 ? _departaments401 : [];
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,30 +62,34 @@ class DepartamentPage extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           Expanded(
-            child: ListView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              scrollDirection: Axis.vertical,
-              itemCount: studyPlans.length,
-              itemBuilder: (context, index) {
-                final item = studyPlans[index];
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 20),
-                  child: ButtonWithImage(
-                    image: item.image,
-                    text: plan + item.text,
-                    fontSize: 22,
-                    imageHeight: 150,
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => AcademyPage()),
+            child: departaments.isEmpty
+                ? EmptyMessage()
+                : ListView.builder(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    scrollDirection: Axis.vertical,
+                    itemCount: departaments.length,
+                    itemBuilder: (context, index) {
+                      final item = departaments[index];
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 20),
+                        child: ButtonWithImage(
+                          image: item.image,
+                          text: item.text,
+                          fontSize: 22,
+                          imageHeight: 150,
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AcademyPage(
+                                        department: item.id,
+                                      )),
+                            );
+                          },
+                        ),
                       );
-                      print('Button ${item.text} pressed');
                     },
                   ),
-                );
-              },
-            ),
           )
         ],
       ),

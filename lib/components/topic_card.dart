@@ -51,7 +51,7 @@ class TopicsCard extends StatelessWidget {
                         (i) => GestureDetector(
                               onTap: topics[i].onPressed,
                               child: Padding(
-                                padding: const EdgeInsets.only(bottom: 10),
+                                padding: const EdgeInsets.only(bottom: 15),
                                 child: Row(children: [
                                   SizedBox(
                                     width: 90,

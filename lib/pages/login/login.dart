@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:intersemestral_fime/data/cache.dart';
+import 'package:intersemestral_fime/pages/student/student_home.dart';
 import 'package:intersemestral_fime/pages/study_plan.dart';
+import 'package:intersemestral_fime/utils/modal.dart';
 
 import 'components/capsule_button.dart';
 import 'components/capsule_dropdown_menu.dart';
@@ -16,10 +20,35 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  // final _box = Hive.box("subjects");
+  final CacheController cache = CacheController();
   final TextEditingController _textController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   String? _dropdownValue = 'Alumno';
   bool _switchValue = false;
+
+  void signIn() {}
+
+  @override
+  void initState() {
+    super.initState();
+    // try {
+    //   if (_box.get("SUBJECTS") != null) {
+    //     cache.loadSubjects();
+    //     print(cache.subjects);
+    //     if (cache.subjects.isNotEmpty) {
+    //       Navigator.push(
+    //         context,
+    //         MaterialPageRoute(
+    //             builder: (context) =>
+    //                 StudentHomePage(subjects: cache.subjects)),
+    //       );
+    //     }
+    //   }
+    // } catch (e) {
+    //   print(e.toString());
+    // }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -101,15 +130,31 @@ class _LoginPageState extends State<LoginPage> {
                     CapsuleButton(
                       text: 'Ingresar',
                       onPressed: () {
-                        print('Dropdown Value: $_dropdownValue');
-                        print('Text Value: ${_textController.text}');
-                        print('Password Value: ${_passwordController.text}');
-                        print('Switch Value: $_switchValue');
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => StudyPlanPage()),
-                        );
+                        String type = _dropdownValue == "Alumno" ? "01" : "02";
+                        String username = _textController.text;
+                        String password = _passwordController.text;
+
+                        bool success = username == "";
+
+                        if (success) {
+                          print("User: ${username}");
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => StudyPlanPage()),
+                          );
+                          // Navigator.pop(context);
+                        } else {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return const Modal();
+                              });
+                        }
+
+                        if (_switchValue) {
+                          print("TODO: SAVE IN MEMORY");
+                        }
                       },
                     )
                   ],

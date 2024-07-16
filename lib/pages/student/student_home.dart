@@ -1,46 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intersemestral_fime/components/button_with_image.dart';
+import 'package:intersemestral_fime/data/api_controller.dart';
 import 'package:intersemestral_fime/pages/student/components/subject_button.dart';
 import 'package:intersemestral_fime/pages/student/student_content.dart';
+import 'package:intersemestral_fime/props/subject_props.dart';
 import 'package:intersemestral_fime/utils/layout_selection.dart';
 
 class StudentHomePage extends StatefulWidget {
-  StudentHomePage({super.key});
+  final List<int> subjects;
+  const StudentHomePage({super.key, required this.subjects});
 
   @override
   _StudentHomePageState createState() => _StudentHomePageState();
 }
 
 class _StudentHomePageState extends State<StudentHomePage> {
-  final TextEditingController _searchController = TextEditingController();
-  final List<ButtonProps> subjects = [
-    ButtonProps(
-        "https://picsum.photos/250?image=9", "Base de datos y lenguajes"),
-    ButtonProps("https://docs.flutter.dev/assets/images/dash/dash-fainting.gif",
-        "Estructura de datos"),
-    ButtonProps("https://picsum.photos/250?image=5", "Manufactura"),
-    ButtonProps("https://picsum.photos/250?image=5", "Manufactura"),
-    ButtonProps("https://picsum.photos/250?image=5", "Manufactura"),
-    ButtonProps("https://picsum.photos/250?image=5", "Manufactura"),
-  ];
-
-  List<ButtonProps> _filteredSubjects = [];
+  final ApiController api = ApiController();
+  List<SubjectProps> _subjects = [];
 
   @override
   void initState() {
     super.initState();
-    _filteredSubjects = subjects;
-    _searchController.addListener(_filterStudyPlans);
-  }
-
-  void _filterStudyPlans() {
-    final query = _searchController.text.toLowerCase();
-    setState(() {
-      _filteredSubjects = subjects.where((plan) {
-        return plan.text.toLowerCase().contains(query);
-      }).toList();
-    });
+    _subjects = api
+        .getSubjectsbyIds(widget.subjects)
+        .map((e) => SubjectProps(e.id, e.image, e.text))
+        .toList();
   }
 
   @override
@@ -70,9 +54,9 @@ class _StudentHomePageState extends State<StudentHomePage> {
             child: ListView.builder(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               scrollDirection: Axis.vertical,
-              itemCount: _filteredSubjects.length,
+              itemCount: _subjects.length,
               itemBuilder: (context, index) {
-                final item = _filteredSubjects[index];
+                final item = _subjects[index];
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 20),
                   child: SubjectButton(
@@ -80,12 +64,11 @@ class _StudentHomePageState extends State<StudentHomePage> {
                     text: item.text,
                     fontSize: 22,
                     onPressed: () {
-                      print('Button ${item.text} pressed');
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => StudentContentPage(
-                                subject: {"id": 1, "name": item.text})),
+                            builder: (context) =>
+                                StudentContentPage(subject: _subjects[index])),
                       );
                     },
                   ),

@@ -1,27 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class ButtonWithImage extends StatefulWidget {
+class ButtonToggle extends StatefulWidget {
   final String image;
   final String text;
   final double? imageHeight;
   final double? fontSize;
   final VoidCallback? onPressed;
+  final bool? isPressed;
 
-  const ButtonWithImage(
+  const ButtonToggle(
       {super.key,
       required this.image,
       required this.text,
       this.imageHeight,
       this.fontSize,
-      this.onPressed});
+      this.onPressed,
+      this.isPressed});
 
   @override
-  _ButtonWithImageState createState() => _ButtonWithImageState();
+  _ButtonToggleState createState() => _ButtonToggleState();
 }
 
-class _ButtonWithImageState extends State<ButtonWithImage> {
+class _ButtonToggleState extends State<ButtonToggle> {
   bool _isPressed = false;
+
+  @override
+  void initState() {
+    _isPressed = widget.isPressed ?? false;
+    super.initState();
+  }
 
   void _togglePressed() {
     setState(() {
@@ -41,7 +49,7 @@ class _ButtonWithImageState extends State<ButtonWithImage> {
         curve: Curves.easeInOut,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(24),
-          color: Colors.white,
+          color: _isPressed ? Colors.green : Colors.white,
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.5),
@@ -75,7 +83,9 @@ class _ButtonWithImageState extends State<ButtonWithImage> {
                     widget.text,
                     textAlign: TextAlign.center,
                     style: GoogleFonts.montserrat(
-                      color: const Color.fromRGBO(46, 46, 46, 1),
+                      color: _isPressed
+                          ? Colors.white
+                          : const Color.fromRGBO(46, 46, 46, 1),
                       fontSize: widget.fontSize,
                       fontWeight: FontWeight.w700,
                     ),

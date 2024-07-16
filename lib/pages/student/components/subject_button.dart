@@ -108,19 +108,19 @@ class _SubjectButtonState extends State<SubjectButton> {
                               ),
                             ),
                           ),
-                          const SizedBox(
-                            width: 60,
-                            child: Text(
-                              "10%",
-                              maxLines: 1,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          )
+                          // const SizedBox(
+                          //   width: 60,
+                          //   child: Text(
+                          //     "10%",
+                          //     maxLines: 1,
+                          //     textAlign: TextAlign.center,
+                          //     style: TextStyle(
+                          //       color: Colors.white,
+                          //       fontSize: 16,
+                          //       fontWeight: FontWeight.w700,
+                          //     ),
+                          //   ),
+                          // )
                         ],
                       ),
                     ),

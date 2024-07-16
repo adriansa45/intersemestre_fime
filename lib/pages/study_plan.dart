@@ -1,17 +1,22 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intersemestral_fime/components/button_with_image.dart';
 import 'package:intersemestral_fime/pages/departament.dart';
+import 'package:intersemestral_fime/props/subject_props.dart';
 import 'package:intersemestral_fime/utils/layout_selection.dart';
 
 class StudyPlanPage extends StatelessWidget {
   StudyPlanPage({super.key});
 
-  final List<ButtonProps> studyPlans = [
-    ButtonProps("https://picsum.photos/250?image=9", "Plan 401"),
-    ButtonProps("https://picsum.photos/250?image=9", "Plan 440 ")
+  final List<SubjectProps> studyPlans = [
+    SubjectProps(
+        401,
+        "https://asesoriasuanl.com/wp-content/uploads/2021/06/FIMEv1-1.jpg",
+        "Plan 401"),
+    SubjectProps(
+        440,
+        "https://www.fime.uanl.mx/wp-content/uploads/2021/11/FACHADA-scaled.jpg",
+        "Plan 440 ")
   ];
 
   @override
@@ -56,9 +61,8 @@ class StudyPlanPage extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                DepartamentPage(plan: item.text)),
+                                DepartamentPage(plan: item.id)),
                       );
-                      print('Button ${item.text} pressed');
                     },
                   ),
                 );

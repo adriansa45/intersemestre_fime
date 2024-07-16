@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intersemestral_fime/components/button_primary.dart';
-import 'package:intersemestral_fime/components/button_with_image.dart';
 import 'package:intersemestral_fime/components/topic_card.dart';
 import 'package:collection/collection.dart';
 import 'package:intersemestral_fime/pages/student/student_topic.dart';
+import 'package:intersemestral_fime/props/subject_props.dart';
 import 'package:intersemestral_fime/utils/layout_content.dart';
 
 class StudentContentPage extends StatefulWidget {
-  final Map<String, dynamic> subject;
+  final SubjectProps subject;
   StudentContentPage({super.key, required this.subject});
 
   @override
@@ -34,13 +34,6 @@ class _StudentContentPageState extends State<StudentContentPage> {
       {"type": "file", "title": "Archivo 3", "url": ""}
     ]
   };
-  final List<ButtonProps> subjects = [
-    ButtonProps(
-        "https://picsum.photos/250?image=9", "Base de datos y lenguajes"),
-    ButtonProps("https://docs.flutter.dev/assets/images/dash/dash-fainting.gif",
-        "Estructura de datos"),
-    ButtonProps("https://picsum.photos/250?image=5", "Manufactura")
-  ];
 
   @override
   void initState() {
@@ -91,7 +84,7 @@ class _StudentContentPageState extends State<StudentContentPage> {
                   const SizedBox(height: 20),
                   SizedBox(
                       width: 320,
-                      child: Text(widget.subject["name"],
+                      child: Text(widget.subject.text,
                           textAlign: TextAlign.center,
                           maxLines: 3,
                           style: GoogleFonts.montserrat(
@@ -103,21 +96,24 @@ class _StudentContentPageState extends State<StudentContentPage> {
             ],
           ),
           const SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ButtonPrimary(
-                text: "Temas",
-                active: currentTab == 0,
-                onPressed: () => {selectTab(0)},
-              ),
-              const SizedBox(width: 20),
-              ButtonPrimary(
-                text: "Recursos",
-                active: currentTab == 1,
-                onPressed: () => {selectTab(1)},
-              )
-            ],
+          SizedBox(
+            height: 50,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ButtonPrimary(
+                  text: "Temas",
+                  active: currentTab == 0,
+                  onPressed: () => {selectTab(0)},
+                ),
+                const SizedBox(width: 20),
+                ButtonPrimary(
+                  text: "Recursos",
+                  active: currentTab == 1,
+                  onPressed: () => {selectTab(1)},
+                )
+              ],
+            ),
           ),
           const SizedBox(height: 10),
           Padding(
@@ -150,7 +146,7 @@ class SubjectTab extends StatelessWidget {
     }
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 0),
       child: Column(
         children: List.generate(
             content.length,
@@ -177,7 +173,7 @@ class ResourcesTab extends StatelessWidget {
         .toList();
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 0),
       child: TopicsCard(title: "Recursos", topics: topics),
     );
   }

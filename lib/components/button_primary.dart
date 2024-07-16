@@ -15,28 +15,6 @@ class ButtonPrimary extends StatelessWidget {
       this.fontSize});
 
   Color greenColor = const Color.fromRGBO(0, 89, 4, 1);
-  List<BoxShadow> activeShadow = [
-    BoxShadow(
-      color: Colors.black.withOpacity(0.25),
-      spreadRadius: 2,
-      blurRadius: 5,
-      offset: Offset(0, 3), // changes position of shadow
-    ),
-    BoxShadow(
-      color: Colors.black.withOpacity(0.12),
-      spreadRadius: -10,
-      blurRadius: 1,
-    ),
-  ];
-
-  List<BoxShadow> deactiveShadow = [
-    BoxShadow(
-      color: Colors.black.withOpacity(0.25),
-      spreadRadius: 2,
-      blurRadius: 5,
-      offset: Offset(0, 3), // changes position of shadow
-    )
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +28,14 @@ class ButtonPrimary extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(24),
             color: active ? greenColor : Colors.white,
-            boxShadow: active ? activeShadow : deactiveShadow,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.25),
+                spreadRadius: 2,
+                blurRadius: 5,
+                offset: Offset(0, 3), // changes position of shadow
+              )
+            ],
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
