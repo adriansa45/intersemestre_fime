@@ -21,17 +21,42 @@ class _StudentContentPageState extends State<StudentContentPage> {
     "content": [
       {
         "name": "Medio Curso",
-        "subjects": ["Cambio climatico", "Cambio climatico", "Cambio climatico"]
+        "subjects": [
+          "Sistemas de administración de base de datos distribuidas y control de concurrencia",
+          "Sistemas de base de datos orientados a objetos y cliente/servidor"
+        ]
       },
       {
         "name": "Ordinario",
-        "subjects": ["Cambio climatico", "Cambio climatico", "Cambio climatico"]
+        "subjects": [
+          "Reporte de administración de almacenes y base de datos",
+          "Desarrollo de base de datos en la web y comercio electrónico"
+        ]
       }
     ],
     "resources": [
-      {"type": "file", "title": "Archivo 1", "url": ""},
-      {"type": "file", "title": "Archivo 2", "url": ""},
-      {"type": "file", "title": "Archivo 3", "url": ""}
+      {
+        "type": "file",
+        "title":
+            "Sistemas de administración de base de datos distribuidas y control de concurrencia",
+        "url": ""
+      },
+      {
+        "type": "file",
+        "title":
+            "Sistemas de base de datos orientados a objetos y cliente/servidor",
+        "url": ""
+      },
+      {
+        "type": "file",
+        "title": "Reporte de administración de almacenes y base de datos",
+        "url": ""
+      },
+      {
+        "type": "file",
+        "title": "Desarrollo de base de datos en la web y comercio electrónico",
+        "url": ""
+      }
     ]
   };
 

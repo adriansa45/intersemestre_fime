@@ -90,18 +90,18 @@ class _SubjectButtonState extends State<SubjectButton> {
                     height: double.infinity,
                     decoration: const BoxDecoration(
                         color: Color.fromRGBO(0, 134, 5, 1)),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 15.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Flexible(
                             child: Text(
-                              widget.text,
+                              "Unidad temática 1",
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
                               textAlign: TextAlign.center,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w700,
