@@ -22,13 +22,14 @@ class _CapsuleTextFieldState extends State<CapsuleTextField> {
             color: Colors.black.withOpacity(0.25),
             spreadRadius: 2,
             blurRadius: 10,
-            offset: Offset(0, 3), // changes position of shadow
+            offset: const Offset(0, 3), // changes position of shadow
           ),
         ],
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 15),
         child: TextField(
+          maxLines: 1,
           controller: widget.controller,
           style: GoogleFonts.montserrat(
             color: Colors.white,
@@ -37,7 +38,8 @@ class _CapsuleTextFieldState extends State<CapsuleTextField> {
           decoration: InputDecoration(
             hintText: 'Matrícula',
             hintStyle: GoogleFonts.montserrat(
-              color: Colors.white.withOpacity(0.7),
+              color: Colors.white.withOpacity(0.9),
+              fontSize: 17,
               fontWeight: FontWeight.w500,
             ),
             border: InputBorder.none,

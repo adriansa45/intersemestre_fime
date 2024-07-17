@@ -49,7 +49,7 @@ class _ButtonToggleState extends State<ButtonToggle> {
         curve: Curves.easeInOut,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(24),
-          color: _isPressed ? Colors.green : Colors.white,
+          color: _isPressed ? Theme.of(context).primaryColor : Colors.white,
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.5),

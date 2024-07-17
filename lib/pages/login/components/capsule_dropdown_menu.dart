@@ -52,7 +52,7 @@ class _CapsuleDropdownMenuState extends State<CapsuleDropdownMenu> {
           isExpanded: true,
           borderRadius: BorderRadius.circular(24),
           style: GoogleFonts.montserrat(
-              color: Colors.white, fontWeight: FontWeight.w500),
+              color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
         ),
       ),
     );

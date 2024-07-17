@@ -31,7 +31,7 @@ class CapsuleButton extends StatelessWidget {
               text,
               style: GoogleFonts.montserrat(
                 color: const Color.fromRGBO(0, 89, 4, 1),
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w700,
                 fontSize: 18,
               ),
             ),

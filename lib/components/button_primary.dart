@@ -14,7 +14,7 @@ class ButtonPrimary extends StatelessWidget {
       required this.onPressed,
       this.fontSize});
 
-  Color greenColor = const Color.fromRGBO(0, 89, 4, 1);
+  Color greenColor = const Color.fromARGB(255, 1, 126, 5);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class ButtonPrimary extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(24),
-            color: active ? greenColor : Colors.white,
+            color: active ? Theme.of(context).primaryColor : Colors.white,
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.25),

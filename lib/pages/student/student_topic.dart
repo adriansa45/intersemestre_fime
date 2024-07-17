@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intersemestral_fime/pages/teacher/components/edit_box.dart';
 import 'package:intersemestral_fime/utils/layout_content.dart';
 
 class StudentTopicPage extends StatefulWidget {
@@ -105,8 +106,10 @@ class _StudentTopicPageState extends State<StudentTopicPage> {
                     content.length,
                     (i) => Padding(
                         padding: const EdgeInsets.only(bottom: 10),
-                        child: ContentTopic(
-                          content: content[i],
+                        child: EditBox(
+                          child: ContentTopic(
+                            content: content[i],
+                          ),
                         )),
                   ),
                 )),

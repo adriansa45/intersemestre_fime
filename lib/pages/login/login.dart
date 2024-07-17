@@ -148,7 +148,11 @@ class _LoginPageState extends State<LoginPage> {
                           showDialog(
                               context: context,
                               builder: (context) {
-                                return const Modal();
+                                return const Modal(
+                                  title: "Ocurrió un error",
+                                  body: Text("Verifica tus credenciales"),
+                                  footer: SizedBox(),
+                                );
                               });
                         }
 

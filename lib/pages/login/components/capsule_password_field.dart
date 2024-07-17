@@ -30,7 +30,7 @@ class _CapsulePasswordFieldState extends State<CapsulePasswordField> {
             color: Colors.black.withOpacity(0.25),
             spreadRadius: 2,
             blurRadius: 5,
-            offset: Offset(0, 3), // changes position of shadow
+            offset: const Offset(0, 3), // changes position of shadow
           ),
         ],
       ),
@@ -41,12 +41,14 @@ class _CapsulePasswordFieldState extends State<CapsulePasswordField> {
           obscureText: _obscureText,
           style: GoogleFonts.montserrat(
             color: Colors.white,
+            fontSize: 20,
             fontWeight: FontWeight.w500,
           ),
           decoration: InputDecoration(
-            hintText: 'Ingrese contraseña',
+            hintText: 'Ingrese su contraseña',
             hintStyle: GoogleFonts.montserrat(
-              color: Colors.white.withOpacity(0.7),
+              color: Colors.white.withOpacity(0.9),
+              fontSize: 17,
               fontWeight: FontWeight.w500,
             ),
             border: InputBorder.none,
@@ -57,7 +59,7 @@ class _CapsulePasswordFieldState extends State<CapsulePasswordField> {
               ),
               onPressed: _togglePasswordVisibility,
             ),
-            icon: Icon(
+            icon: const Icon(
               Icons.lock,
               size: 35,
               color: Colors.white,
