@@ -3,8 +3,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 class ContentTopic extends StatelessWidget {
   final dynamic content;
+  final VoidCallback? onEditPressed;
 
-  ContentTopic({super.key, required this.content});
+  ContentTopic({super.key, required this.content, this.onEditPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +27,15 @@ class ContentTopic extends StatelessWidget {
         return ClipRRect(
             borderRadius: const BorderRadius.all(Radius.circular(24)),
             child: Image.network(content["url"], fit: BoxFit.fitWidth));
+      case 3:
+        return Text(
+          content["text"],
+          textAlign: TextAlign.center,
+          style: GoogleFonts.montserrat(
+              fontSize: 24,
+              fontWeight: FontWeight.w700,
+              color: const Color.fromRGBO(0, 89, 4, 1)),
+        );
     }
     return const SizedBox();
   }

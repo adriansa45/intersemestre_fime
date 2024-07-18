@@ -6,6 +6,7 @@ import 'package:intersemestral_fime/components/empty_message.dart';
 import 'package:intersemestral_fime/components/search_input.dart';
 import 'package:intersemestral_fime/data/api_controller.dart';
 import 'package:intersemestral_fime/pages/student/student_home.dart';
+import 'package:intersemestral_fime/pages/teacher/teacher_content.dart';
 import 'package:intersemestral_fime/props/subject_props.dart';
 import 'package:intersemestral_fime/utils/layout_selection.dart';
 
@@ -43,38 +44,20 @@ class _TeacherSubjectsPageState extends State<TeacherSubjectsPage> {
     });
   }
 
-  void onTapButton(int id) {
-    int index = selectedSubjects.indexOf(id);
-    if (index == -1) {
-      selectedSubjects.add(id);
-    } else {
-      selectedSubjects.removeAt(index);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    void nextPage() {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => StudentHomePage(
-                  subjects: selectedSubjects,
-                )),
-      );
-    }
-
     return SelectionLayout(
       child: Column(
         children: [
           Row(
             children: [
+              const SizedBox(height: 100),
               Flexible(
                 fit: FlexFit.tight,
                 child: Column(children: [
                   SizedBox(
                       width: 250,
-                      child: Text("Selecciona tus materias",
+                      child: Text("Materias",
                           textAlign: TextAlign.center,
                           style: GoogleFonts.montserrat(
                               fontSize: 30,
@@ -106,23 +89,19 @@ class _TeacherSubjectsPageState extends State<TeacherSubjectsPage> {
                           text: item.text,
                           fontSize: 22,
                           imageHeight: 100,
-                          isPressed: selectedSubjects.contains(item.id),
+                          isPressed: false,
                           onPressed: () {
-                            onTapButton(item.id);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => TeacherContentPage(
+                                      subject: _subjects[index])),
+                            );
                           },
                         ),
                       );
                     },
                   ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: SizedBox(
-              width: double.infinity,
-              height: 50,
-              child: ButtonPrimary(
-                  text: "Siguiente", active: true, onPressed: nextPage),
-            ),
           )
         ],
       ),

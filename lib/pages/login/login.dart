@@ -151,7 +151,7 @@ class _LoginPageState extends State<LoginPage> {
                         final response =
                             await api.login(type, username, password);
 
-                        Widget nextPage = type == "01"
+                        Widget nextPage = type == "02"
                             ? (subjects.isNotEmpty
                                 ? StudentHomePage(subjects: subjects)
                                 : StudentStudyPlanPage())

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intersemestral_fime/data/api_controller.dart';
 import 'package:intersemestral_fime/pages/student/components/subject_button.dart';
-import 'package:intersemestral_fime/pages/student/student_content.dart';
+import 'package:intersemestral_fime/pages/teacher/teacher_content.dart';
 import 'package:intersemestral_fime/props/subject_props.dart';
 import 'package:intersemestral_fime/utils/layout_selection.dart';
 
@@ -68,7 +68,7 @@ class _TeacherHomePageState extends State<TeacherHomePage> {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                StudentContentPage(subject: _subjects[index])),
+                                TeacherContentPage(subject: _subjects[index])),
                       );
                     },
                   ),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intersemestral_fime/pages/teacher/components/edit_box.dart';
 import 'package:intersemestral_fime/utils/layout_content.dart';
 
 class StudentTopicPage extends StatefulWidget {

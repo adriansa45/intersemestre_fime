@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intersemestral_fime/pages/teacher/components/edit_box.dart';
 import 'package:intersemestral_fime/utils/layout_content.dart';
 
 import 'components/content_topic.dart';
@@ -13,22 +14,9 @@ class TeacherTopicPage extends StatefulWidget {
 }
 
 class _TeacherTopicPageState extends State<TeacherTopicPage> {
-  final content = [
-    {
-      "type": 1,
-      "url": "https://docs.flutter.dev/assets/images/dash/dash-fainting.gif"
-    },
-    {
-      "type": 0,
-      "text": "sadasd kqwejkas dasdkj aljkweaksd qlwjeqwlke alsjdalk "
-    },
-    {
-      "type": 2,
-      "url": "https://docs.flutter.dev/assets/images/dash/dash-fainting.gif"
-    }
-  ];
   @override
   Widget build(BuildContext context) {
+    print(widget.topicProps["content"]);
     return ContentLayout(
       child: Column(
         children: [
@@ -39,7 +27,7 @@ class _TeacherTopicPageState extends State<TeacherTopicPage> {
                 child: Column(children: [
                   SizedBox(
                       width: 200,
-                      child: Text(widget.topicProps["description"],
+                      child: Text("Contenido",
                           textAlign: TextAlign.center,
                           maxLines: 3,
                           style: GoogleFonts.montserrat(
@@ -50,19 +38,30 @@ class _TeacherTopicPageState extends State<TeacherTopicPage> {
               ),
             ],
           ),
-          const SizedBox(height: 10),
-          SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                children: List.generate(
-                  content.length,
-                  (i) => Padding(
-                      padding: const EdgeInsets.only(bottom: 10),
-                      child: ContentTopic(
-                        content: content[i],
-                      )),
-                ),
-              ))
+          const SizedBox(height: 30),
+          Expanded(
+            child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  children: List.generate(
+                    widget.topicProps["content"] != null
+                        ? widget.topicProps["content"].length
+                        : 0,
+                    (i) => Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: EditBox(
+                          onPressedEdit: () {
+                            print("hola");
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: ContentTopic(
+                                content: widget.topicProps["content"][i]),
+                          ),
+                        )),
+                  ),
+                )),
+          )
         ],
       ),
     );

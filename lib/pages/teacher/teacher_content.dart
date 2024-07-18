@@ -1,44 +1,55 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intersemestral_fime/components/button_primary.dart';
+import 'package:intersemestral_fime/components/resource_card.dart';
 import 'package:intersemestral_fime/components/topic_card.dart';
 import 'package:collection/collection.dart';
+import 'package:intersemestral_fime/components/topic_editable_card.dart';
+import 'package:intersemestral_fime/data/api_controller.dart';
 import 'package:intersemestral_fime/pages/student/student_topic.dart';
+import 'package:intersemestral_fime/pages/teacher/teacher_topic.dart';
 import 'package:intersemestral_fime/props/subject_props.dart';
 import 'package:intersemestral_fime/utils/layout_content.dart';
 
-class StudentContentPage extends StatefulWidget {
+class TeacherContentPage extends StatefulWidget {
   final SubjectProps subject;
-  StudentContentPage({super.key, required this.subject});
+  TeacherContentPage({super.key, required this.subject});
 
   @override
-  _StudentContentPageState createState() => _StudentContentPageState();
+  _TeacherContentPageState createState() => _TeacherContentPageState();
 }
 
-class _StudentContentPageState extends State<StudentContentPage> {
+class _TeacherContentPageState extends State<TeacherContentPage> {
+  final ApiController api = ApiController();
   int currentTab = 0;
-  final Map<String, dynamic> subjectContent = {
+  Map<String, dynamic> subjectContent = {
     "content": [
-      {
-        "name": "Medio Curso",
-        "subjects": ["Cambio climatico", "Cambio climatico", "Cambio climatico"]
-      },
-      {
-        "name": "Ordinario",
-        "subjects": ["Cambio climatico", "Cambio climatico", "Cambio climatico"]
-      }
+      {"name": "Medio Curso", "subjects": []},
+      {"name": "Ordinario", "subjects": []}
     ],
-    "resources": [
-      {"type": "file", "title": "Archivo 1", "url": ""},
-      {"type": "file", "title": "Archivo 2", "url": ""},
-      {"type": "file", "title": "Archivo 3", "url": ""}
-    ]
+    "resources": []
   };
 
   @override
   void initState() {
     currentTab = 0;
+    _loadData();
     super.initState();
+  }
+
+  _loadData() async {
+    List<dynamic> topics = await api.fetchTopics(widget.subject.id.toString());
+
+    List<dynamic> resources =
+        await api.fetchResources(widget.subject.id.toString());
+
+    subjectContent["content"][0]["subjects"] = topics.take(2).toList();
+    subjectContent["content"][1]["subjects"] = topics.skip(2).toList();
+
+    subjectContent["resources"] = resources;
+    setState(() {
+      currentTab = currentTab;
+    });
   }
 
   void selectTab(int tab) {
@@ -116,9 +127,11 @@ class _StudentContentPageState extends State<StudentContentPage> {
             ),
           ),
           const SizedBox(height: 10),
-          Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: getCurrentTab())
+          Expanded(
+            child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: getCurrentTab()),
+          )
         ],
       ),
     );
@@ -132,14 +145,28 @@ class SubjectTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<TopicProps> getTopics(List<dynamic> subjects) {
+    List<TopicEditableProps> getTopics(List<dynamic> subjects) {
       return subjects
-          .mapIndexed((i, e) => TopicProps("Tema ${topicsIndex++}", e, 0, () {
+          .mapIndexed((i, e) =>
+              TopicEditableProps("Tema ${topicsIndex++}", e["name"], 0, () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => StudentTopicPage(
-                          topicProps: {"id": 1, "description": e})),
+                      builder: (context) => StudentTopicPage(topicProps: {
+                            "id": e["topic_id"],
+                            "description": e["name"],
+                            "content": e["content"]
+                          })),
+                );
+              }, () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => TeacherTopicPage(topicProps: {
+                            "id": e["topic_id"],
+                            "description": e["name"],
+                            "content": e["content"]
+                          })),
                 );
               }))
           .toList();
@@ -152,7 +179,7 @@ class SubjectTab extends StatelessWidget {
             content.length,
             (i) => Padding(
                   padding: const EdgeInsets.only(bottom: 20),
-                  child: TopicsCard(
+                  child: TopicEditableCard(
                       title: content[i]["name"],
                       topics: getTopics(content[i]["subjects"])),
                 )),
@@ -167,14 +194,18 @@ class ResourcesTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<TopicProps> topics = resources
-        .mapIndexed((i, e) =>
-            TopicProps("Archivo ${i + 1}", e["title"], 0, () => {print(e)}))
+    final List<ResourceProps> topics = resources
+        .mapIndexed((i, e) => ResourceProps(
+            e["type"] == 0 ? "Video" : "Recurso",
+            e["name"],
+            0,
+            e["url"] ?? "",
+            () => {}))
         .toList();
 
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: 0),
-      child: TopicsCard(title: "Recursos", topics: topics),
+      child: ResourceCard(title: "Recursos", topics: topics),
     );
   }
 }
