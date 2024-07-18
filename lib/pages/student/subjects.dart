@@ -5,22 +5,24 @@ import 'package:intersemestral_fime/components/button_toggle.dart';
 import 'package:intersemestral_fime/components/empty_message.dart';
 import 'package:intersemestral_fime/components/search_input.dart';
 import 'package:intersemestral_fime/data/api_controller.dart';
+import 'package:intersemestral_fime/data/cache.dart';
 import 'package:intersemestral_fime/pages/student/student_home.dart';
 import 'package:intersemestral_fime/props/subject_props.dart';
 import 'package:intersemestral_fime/utils/layout_selection.dart';
 
-class SubjectsPage extends StatefulWidget {
+class StudentSubjectsPage extends StatefulWidget {
   final int academy;
 
-  SubjectsPage({super.key, required this.academy});
+  StudentSubjectsPage({super.key, required this.academy});
 
   @override
-  _SubjectsPageState createState() => _SubjectsPageState();
+  _StudentSubjectsPageState createState() => _StudentSubjectsPageState();
 }
 
-class _SubjectsPageState extends State<SubjectsPage> {
+class _StudentSubjectsPageState extends State<StudentSubjectsPage> {
   List<int> selectedSubjects = [];
   final ApiController api = ApiController();
+  final CacheController cacheController = CacheController();
   List<SubjectProps> _subjects = [];
   final TextEditingController _searchController = TextEditingController();
 
@@ -54,7 +56,8 @@ class _SubjectsPageState extends State<SubjectsPage> {
 
   @override
   Widget build(BuildContext context) {
-    void nextPage() {
+    void nextPage() async {
+      await cacheController.postSubjects(selectedSubjects);
       Navigator.push(
         context,
         MaterialPageRoute(

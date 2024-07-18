@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intersemestral_fime/components/button_primary.dart';
+import 'package:intersemestral_fime/components/resource_card.dart';
 import 'package:intersemestral_fime/components/topic_card.dart';
 import 'package:collection/collection.dart';
+import 'package:intersemestral_fime/data/api_controller.dart';
 import 'package:intersemestral_fime/pages/student/student_topic.dart';
 import 'package:intersemestral_fime/props/subject_props.dart';
 import 'package:intersemestral_fime/utils/layout_content.dart';
@@ -16,54 +18,36 @@ class StudentContentPage extends StatefulWidget {
 }
 
 class _StudentContentPageState extends State<StudentContentPage> {
+  final ApiController api = ApiController();
   int currentTab = 0;
-  final Map<String, dynamic> subjectContent = {
+  Map<String, dynamic> subjectContent = {
     "content": [
-      {
-        "name": "Medio Curso",
-        "subjects": [
-          "Sistemas de administración de base de datos distribuidas y control de concurrencia",
-          "Sistemas de base de datos orientados a objetos y cliente/servidor"
-        ]
-      },
-      {
-        "name": "Ordinario",
-        "subjects": [
-          "Reporte de administración de almacenes y base de datos",
-          "Desarrollo de base de datos en la web y comercio electrónico"
-        ]
-      }
+      {"name": "Medio Curso", "subjects": []},
+      {"name": "Ordinario", "subjects": []}
     ],
-    "resources": [
-      {
-        "type": "file",
-        "title":
-            "Sistemas de administración de base de datos distribuidas y control de concurrencia",
-        "url": ""
-      },
-      {
-        "type": "file",
-        "title":
-            "Sistemas de base de datos orientados a objetos y cliente/servidor",
-        "url": ""
-      },
-      {
-        "type": "file",
-        "title": "Reporte de administración de almacenes y base de datos",
-        "url": ""
-      },
-      {
-        "type": "file",
-        "title": "Desarrollo de base de datos en la web y comercio electrónico",
-        "url": ""
-      }
-    ]
+    "resources": []
   };
 
   @override
   void initState() {
     currentTab = 0;
+    _loadData();
     super.initState();
+  }
+
+  _loadData() async {
+    List<dynamic> topics = await api.fetchTopics(widget.subject.id.toString());
+
+    List<dynamic> resources =
+        await api.fetchResources(widget.subject.id.toString());
+
+    subjectContent["content"][0]["subjects"] = topics.take(2).toList();
+    subjectContent["content"][1]["subjects"] = topics.skip(2).toList();
+
+    subjectContent["resources"] = resources;
+    setState(() {
+      currentTab = currentTab;
+    });
   }
 
   void selectTab(int tab) {
@@ -141,9 +125,11 @@ class _StudentContentPageState extends State<StudentContentPage> {
             ),
           ),
           const SizedBox(height: 10),
-          Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: getCurrentTab())
+          Expanded(
+            child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: getCurrentTab()),
+          )
         ],
       ),
     );
@@ -159,14 +145,18 @@ class SubjectTab extends StatelessWidget {
   Widget build(BuildContext context) {
     List<TopicProps> getTopics(List<dynamic> subjects) {
       return subjects
-          .mapIndexed((i, e) => TopicProps("Tema ${topicsIndex++}", e, 0, () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => StudentTopicPage(
-                          topicProps: {"id": 1, "description": e})),
-                );
-              }))
+          .mapIndexed(
+              (i, e) => TopicProps("Tema ${topicsIndex++}", e["name"], 0, () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => StudentTopicPage(topicProps: {
+                                "id": e["topic_id"],
+                                "description": e["name"],
+                                "content": e["content"]
+                              })),
+                    );
+                  }))
           .toList();
     }
 
@@ -192,14 +182,18 @@ class ResourcesTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<TopicProps> topics = resources
-        .mapIndexed((i, e) =>
-            TopicProps("Archivo ${i + 1}", e["title"], 0, () => {print(e)}))
+    final List<ResourceProps> topics = resources
+        .mapIndexed((i, e) => ResourceProps(
+            e["type"] == 0 ? "Video" : "Recurso",
+            e["name"],
+            0,
+            e["url"] ?? "",
+            () => {}))
         .toList();
 
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: 0),
-      child: TopicsCard(title: "Recursos", topics: topics),
+      child: ResourceCard(title: "Recursos", topics: topics),
     );
   }
 }

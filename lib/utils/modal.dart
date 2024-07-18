@@ -17,10 +17,12 @@ class Modal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(title, style: GoogleFonts.montserrat(color: Colors.black87)),
+      title: Text(title,
+          style: GoogleFonts.montserrat(
+              color: Colors.black87, fontWeight: FontWeight.w600)),
       content: Container(
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(24)),
-        child: Text("hola"),
+        child: body,
       ),
       actions: [
         GestureDetector(
@@ -31,7 +33,18 @@ class Modal extends StatelessWidget {
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(24), color: Colors.green),
             child: Row(
-              children: [Text("Cerrar")],
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Text("Aceptar",
+                      style: GoogleFonts.montserrat(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16,
+                      )),
+                )
+              ],
             ),
           ),
         )

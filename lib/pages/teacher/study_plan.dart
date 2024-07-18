@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intersemestral_fime/components/button_with_image.dart';
-import 'package:intersemestral_fime/pages/departament.dart';
+import 'package:intersemestral_fime/pages/teacher/departament.dart';
 import 'package:intersemestral_fime/props/subject_props.dart';
 import 'package:intersemestral_fime/utils/layout_selection.dart';
 
-class StudyPlanPage extends StatelessWidget {
-  StudyPlanPage({super.key});
+class TeacherStudyPlanPage extends StatelessWidget {
+  TeacherStudyPlanPage({super.key});
 
-  final List<SubjectProps> studyPlans = [
-    SubjectProps(
+  final List<GenericProps> studyPlans = [
+    GenericProps(
         401,
         "https://asesoriasuanl.com/wp-content/uploads/2021/06/FIMEv1-1.jpg",
         "Plan 401"),
-    SubjectProps(
+    GenericProps(
         440,
         "https://www.fime.uanl.mx/wp-content/uploads/2021/11/FACHADA-scaled.jpg",
         "Plan 440 ")
@@ -61,7 +61,7 @@ class StudyPlanPage extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                DepartamentPage(plan: item.id)),
+                                TeacherDepartamentPage(plan: item.id)),
                       );
                     },
                   ),

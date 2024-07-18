@@ -2,35 +2,35 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intersemestral_fime/components/button_with_image.dart';
 import 'package:intersemestral_fime/components/empty_message.dart';
-import 'package:intersemestral_fime/pages/academy.dart';
+import 'package:intersemestral_fime/pages/student/academy.dart';
 import 'package:intersemestral_fime/props/subject_props.dart';
 import 'package:intersemestral_fime/utils/layout_selection.dart';
 
-class DepartamentPage extends StatefulWidget {
+class StudentDepartamentPage extends StatefulWidget {
   final int plan;
-  const DepartamentPage({super.key, required this.plan});
+  const StudentDepartamentPage({super.key, required this.plan});
 
   @override
-  _DepartamentPageState createState() => _DepartamentPageState();
+  _StudentDepartamentPageState createState() => _StudentDepartamentPageState();
 }
 
-class _DepartamentPageState extends State<DepartamentPage> {
+class _StudentDepartamentPageState extends State<StudentDepartamentPage> {
   final _departaments401 = [
-    SubjectProps(
+    GenericProps(
         1,
         "https://www.uhipocrates.edu.mx/wp-content/uploads/2022/12/empresarios-manos-sobre-mesa-blanca-con-documentos-y-borradores.jpg",
         "Administración"),
-    SubjectProps(
+    GenericProps(
         2,
         "https://www.getxplor.com/wp-content/uploads/2024/01/Ejemplos-de-sistemas-de-informacion.jpg",
         "Sistemas"),
-    SubjectProps(
+    GenericProps(
         3,
         "https://cdn.forbes.com.mx/2015/01/manufacturas-eu-e1629911498545.jpg",
         "Manufactura")
   ];
 
-  List<SubjectProps> departaments = [];
+  List<GenericProps> departaments = [];
 
   @override
   void initState() {
@@ -81,7 +81,7 @@ class _DepartamentPageState extends State<DepartamentPage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => AcademyPage(
+                                  builder: (context) => StudentAcademyPage(
                                         department: item.id,
                                       )),
                             );

@@ -1,15 +1,30 @@
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-part 'subject_props.g.dart';
-
-@HiveType(typeId: 1)
-class SubjectProps extends HiveObject {
-  @HiveField(0)
+class SubjectProps {
   final int id;
-  @HiveField(1)
+
   final String image;
-  @HiveField(2)
+
   final String text;
 
-  SubjectProps(this.id, this.image, this.text);
+  int? academy;
+
+  SubjectProps(this.id, this.image, this.text, this.academy);
+
+  factory SubjectProps.fromJson(Map<String, dynamic> json) {
+    return SubjectProps(
+      json['subject_id'],
+      json['academy_id'],
+      json['image'],
+      json['name'],
+    );
+  }
+}
+
+class GenericProps {
+  final int id;
+
+  final String image;
+
+  final String text;
+
+  GenericProps(this.id, this.image, this.text);
 }

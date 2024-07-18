@@ -23,7 +23,7 @@ class _TeacherHomePageState extends State<TeacherHomePage> {
     super.initState();
     _subjects = api
         .getSubjectsbyIds(widget.subjects)
-        .map((e) => SubjectProps(e.id, e.image, e.text))
+        .map((e) => SubjectProps(e.id, e.image, e.text, e.academy))
         .toList();
   }
 

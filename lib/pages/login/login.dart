@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:intersemestral_fime/data/cache.dart';
 import 'package:intersemestral_fime/pages/student/student_home.dart';
-import 'package:intersemestral_fime/pages/study_plan.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'package:intersemestral_fime/data/api_controller.dart';
+import 'package:intersemestral_fime/data/cache.dart';
+import 'package:intersemestral_fime/pages/student/study_plan.dart';
+import 'package:intersemestral_fime/pages/teacher/study_plan.dart';
 import 'package:intersemestral_fime/utils/modal.dart';
 
 import 'components/capsule_button.dart';
@@ -22,32 +25,36 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   // final _box = Hive.box("subjects");
   final CacheController cache = CacheController();
+  final ApiController api = ApiController();
   final TextEditingController _textController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   String? _dropdownValue = 'Alumno';
   bool _switchValue = false;
 
-  void signIn() {}
+  String _userNameSaved = '';
+  String _userPassSaved = '';
+
+  _loadSavedData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _userNameSaved = prefs.getString('user_name') ?? '';
+      _userPassSaved = prefs.getString('user_pass') ?? '';
+      _textController.text = _userNameSaved;
+      _passwordController.text = _userPassSaved;
+      _switchValue = true;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
-    // try {
-    //   if (_box.get("SUBJECTS") != null) {
-    //     cache.loadSubjects();
-    //     print(cache.subjects);
-    //     if (cache.subjects.isNotEmpty) {
-    //       Navigator.push(
-    //         context,
-    //         MaterialPageRoute(
-    //             builder: (context) =>
-    //                 StudentHomePage(subjects: cache.subjects)),
-    //       );
-    //     }
-    //   }
-    // } catch (e) {
-    //   print(e.toString());
-    // }
+    _loadSavedData();
+  }
+
+  _saveData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('user_name', _textController.text);
+    prefs.setString('user_pass', _passwordController.text);
   }
 
   @override
@@ -129,35 +136,42 @@ class _LoginPageState extends State<LoginPage> {
                     const SizedBox(height: 15),
                     CapsuleButton(
                       text: 'Ingresar',
-                      onPressed: () {
+                      onPressed: () async {
                         String type = _dropdownValue == "Alumno" ? "01" : "02";
                         String username = _textController.text;
                         String password = _passwordController.text;
 
-                        bool success = username == "";
+                        if (_switchValue) {
+                          _saveData();
+                        }
 
-                        if (success) {
-                          print("User: ${username}");
+                        final subjects = await cache.getSubjects();
+                        print(subjects);
+
+                        final response =
+                            await api.login(type, username, password);
+
+                        Widget nextPage = type == "01"
+                            ? (subjects.isNotEmpty
+                                ? StudentHomePage(subjects: subjects)
+                                : StudentStudyPlanPage())
+                            : TeacherStudyPlanPage();
+                        if (response.success) {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
-                                builder: (context) => StudyPlanPage()),
+                            MaterialPageRoute(builder: (context) => nextPage),
                           );
                           // Navigator.pop(context);
                         } else {
                           showDialog(
                               context: context,
                               builder: (context) {
-                                return const Modal(
+                                return Modal(
                                   title: "Ocurrió un error",
-                                  body: Text("Verifica tus credenciales"),
+                                  body: Text(response.message),
                                   footer: SizedBox(),
                                 );
                               });
-                        }
-
-                        if (_switchValue) {
-                          print("TODO: SAVE IN MEMORY");
                         }
                       },
                     )

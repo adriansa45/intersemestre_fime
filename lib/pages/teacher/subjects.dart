@@ -9,16 +9,16 @@ import 'package:intersemestral_fime/pages/student/student_home.dart';
 import 'package:intersemestral_fime/props/subject_props.dart';
 import 'package:intersemestral_fime/utils/layout_selection.dart';
 
-class SubjectsPage extends StatefulWidget {
+class TeacherSubjectsPage extends StatefulWidget {
   final int academy;
 
-  SubjectsPage({super.key, required this.academy});
+  TeacherSubjectsPage({super.key, required this.academy});
 
   @override
-  _SubjectsPageState createState() => _SubjectsPageState();
+  _TeacherSubjectsPageState createState() => _TeacherSubjectsPageState();
 }
 
-class _SubjectsPageState extends State<SubjectsPage> {
+class _TeacherSubjectsPageState extends State<TeacherSubjectsPage> {
   List<int> selectedSubjects = [];
   final ApiController api = ApiController();
   List<SubjectProps> _subjects = [];

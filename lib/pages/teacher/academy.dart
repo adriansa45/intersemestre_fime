@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intersemestral_fime/components/button_with_image.dart';
 import 'package:intersemestral_fime/components/empty_message.dart';
 import 'package:intersemestral_fime/components/search_input.dart';
-import 'package:intersemestral_fime/pages/subjects.dart';
+import 'package:intersemestral_fime/pages/teacher/subjects.dart';
 import 'package:intersemestral_fime/props/subject_props.dart';
 import 'package:intersemestral_fime/utils/layout_selection.dart';
 
@@ -18,30 +18,30 @@ class TeacherAcademyPage extends StatefulWidget {
 class _TeacherAcademyPageState extends State<TeacherAcademyPage> {
   final TextEditingController _searchController = TextEditingController();
   final _academy1 = [
-    SubjectProps(
+    GenericProps(
         1,
         "https://loopgk.com/wp-content/uploads/2021/02/lenguaje-min.jpg",
         "Programación"),
-    SubjectProps(
+    GenericProps(
         2,
         "https://worldcampus.saintleo.edu/img/article/ventajas-informatica-empresas.webp",
         "Informática"),
-    SubjectProps(
+    GenericProps(
         3,
         "https://concepto.de/wp-content/uploads/2015/08/informatica-programas-e1590712084966.jpg",
         "Software de base"),
-    SubjectProps(
+    GenericProps(
         4,
         "https://www.profesionalreview.com/wp-content/uploads/2022/06/Tachyum-anuncia-una-CPU-de-128-nucleos-con-57-GHz-y-950-W-TDP_2.jpg",
         "Arquitectura de computadoras y redes"),
-    SubjectProps(
+    GenericProps(
         5,
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_MwYhJZO7wXIzpFqbIolSO1NQMZRaiuzd2ZQNRnAsJNUs7bTQ6nDDEMD9Cd8QPIokob0&usqp=CAU",
         "Desarrollo de tecnología de la información"),
   ];
 
-  List<SubjectProps> _academies = [];
-  List<SubjectProps> _filteredStudyPlans = [];
+  List<GenericProps> _academies = [];
+  List<GenericProps> _filteredStudyPlans = [];
 
   @override
   void initState() {
@@ -109,7 +109,7 @@ class _TeacherAcademyPageState extends State<TeacherAcademyPage> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      SubjectsPage(academy: item.id)),
+                                      TeacherSubjectsPage(academy: item.id)),
                             );
                           },
                         ),
