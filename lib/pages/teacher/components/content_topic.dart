@@ -3,9 +3,14 @@ import 'package:google_fonts/google_fonts.dart';
 
 class ContentTopic extends StatelessWidget {
   final dynamic content;
+  final bool addButton;
   final VoidCallback? onEditPressed;
 
-  ContentTopic({super.key, required this.content, this.onEditPressed});
+  ContentTopic(
+      {super.key,
+      required this.content,
+      this.onEditPressed,
+      required this.addButton});
 
   @override
   Widget build(BuildContext context) {

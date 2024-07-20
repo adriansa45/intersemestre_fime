@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class ModalSection extends StatelessWidget {
-  final dynamic currentSection;
+class ModalAction extends StatelessWidget {
+  final String title;
   final Widget body;
   final Widget footer;
-  final VoidCallback? onPressedSave;
+  final VoidCallback? onClose;
+  final bool? showClose;
 
-  const ModalSection(
+  const ModalAction(
       {super.key,
-      required this.currentSection,
+      required this.title,
       required this.body,
       required this.footer,
-      required this.onPressedSave});
+      required this.onClose,
+      this.showClose});
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(currentSection != null ? "Editar sección" : "Añadir sección",
+      title: Text(title,
           style: GoogleFonts.montserrat(
               color: Colors.black87, fontWeight: FontWeight.w600)),
       content: Container(
@@ -26,7 +28,12 @@ class ModalSection extends StatelessWidget {
       ),
       actions: [
         GestureDetector(
-          onTap: onPressedSave,
+          onTap: () {
+            Navigator.pop(context);
+            if (onClose != null) {
+              onClose!();
+            }
+          },
           child: Container(
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(24), color: Colors.green),

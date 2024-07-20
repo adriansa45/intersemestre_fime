@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intersemestral_fime/components/button_primary.dart';
 import 'package:intersemestral_fime/components/resource_card.dart';
-import 'package:intersemestral_fime/components/topic_card.dart';
 import 'package:collection/collection.dart';
 import 'package:intersemestral_fime/components/topic_editable_card.dart';
 import 'package:intersemestral_fime/data/api_controller.dart';
 import 'package:intersemestral_fime/pages/student/student_topic.dart';
+import 'package:intersemestral_fime/pages/teacher/components/resource_card.dart';
 import 'package:intersemestral_fime/pages/teacher/teacher_topic.dart';
+import 'package:intersemestral_fime/pages/teacher/upload_resource.dart';
 import 'package:intersemestral_fime/props/subject_props.dart';
 import 'package:intersemestral_fime/utils/layout_content.dart';
 
@@ -58,12 +59,32 @@ class _TeacherContentPageState extends State<TeacherContentPage> {
     });
   }
 
-  Widget getCurrentTab() {
+  Widget getCurrentTab(BuildContext context) {
     switch (currentTab) {
       case 0:
         return SubjectTab(content: subjectContent["content"]);
       case 1:
-        return ResourcesTab(resources: subjectContent["resources"]);
+        return Column(
+          children: [
+            Container(
+              height: 50,
+              width: 350,
+              child: ButtonPrimary(
+                  text: "Cargar recurso",
+                  active: true,
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              UploadResourcePage(subject: widget.subject)),
+                    );
+                  }),
+            ),
+            SizedBox(height: 10),
+            ResourcesTab(resources: subjectContent["resources"]),
+          ],
+        );
       default:
         return SubjectTab(content: subjectContent["content"]);
     }
@@ -130,7 +151,7 @@ class _TeacherContentPageState extends State<TeacherContentPage> {
           Expanded(
             child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: getCurrentTab()),
+                child: SingleChildScrollView(child: getCurrentTab(context))),
           )
         ],
       ),
@@ -205,7 +226,7 @@ class ResourcesTab extends StatelessWidget {
 
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: 0),
-      child: ResourceCard(title: "Recursos", topics: topics),
+      child: ResourceEditCard(title: "Recursos", topics: topics),
     );
   }
 }
